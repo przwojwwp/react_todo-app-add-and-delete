@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { postTodo } from '../../api/todos';
 import { Todo } from '../../types/Todo';
+import { ErrorMessage } from '../../types/ErrorMessage';
 
 type Props = {
   onAddTodo: (newTodo: Todo) => void;
   onAddTemporaryTodo: (tempoTodo: Todo) => void;
+  onError: (error: ErrorMessage | null) => void;
 };
 
-export const Header = ({ onAddTodo, onAddTemporaryTodo }: Props) => {
+export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -15,14 +17,18 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo }: Props) => {
 
     const addTodo = async () => {
       try {
-        const tempTodo = {
+        if (!newTodoTitle.trim()) {
+          throw new Error('Title should not be empty');
+        }
+
+        const tempTodo: Todo = {
           id: 0,
           title: newTodoTitle,
           userId: 764,
           completed: false,
         };
 
-        const newTodo = {
+        const newTodo: Todo = {
           title: newTodoTitle,
           userId: 764,
           completed: false,
@@ -33,7 +39,13 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo }: Props) => {
         const response = await postTodo(newTodo);
 
         onAddTodo(response);
-      } catch {}
+      } catch {
+        onError('Title should not be empty');
+      } finally {
+        setTimeout(() => {
+          onError(null);
+        }, 3000);
+      }
     };
 
     addTodo();

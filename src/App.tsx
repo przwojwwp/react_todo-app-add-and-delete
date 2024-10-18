@@ -8,7 +8,7 @@ import { TodoList } from './components/TodoList';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Todo } from './types/Todo';
-import { ErrorMessage } from './types/Error';
+import { ErrorMessage } from './types/ErrorMessage';
 import { Filter } from './types/Filter';
 
 export const App: React.FC = () => {
@@ -52,6 +52,10 @@ export const App: React.FC = () => {
     setTemporaryTodo(tempTodo);
   };
 
+  const handleSetError = (error: ErrorMessage | null) => {
+    setErrorMessage(error);
+  };
+
   const filteredTodos = todos.filter(todo => {
     switch (filter) {
       case 'active':
@@ -79,6 +83,7 @@ export const App: React.FC = () => {
         <Header
           onAddTodo={handleAddTodo}
           onAddTemporaryTodo={handleAddTemporaryTodo}
+          onError={handleSetError}
         />
         <TodoList
           temporaryTodo={temporaryTodo}

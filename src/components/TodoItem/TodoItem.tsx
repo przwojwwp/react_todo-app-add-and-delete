@@ -17,13 +17,15 @@ export const TodoItem = ({
       {/* This is a completed todo */}
       <div data-cy="Todo" className={`todo ${completed ? 'completed' : ''}`}>
         <label className="todo__status-label">
-          <input
-            data-cy="TodoStatus"
-            type="checkbox"
-            className="todo__status"
-            checked={completed}
-            onClick={() => onToggleTodoStatus(id)}
-          />
+          {id && (
+            <input
+              data-cy="TodoStatus"
+              type="checkbox"
+              className="todo__status"
+              checked={completed}
+              onClick={() => onToggleTodoStatus(id)}
+            />
+          )}
         </label>
 
         <span data-cy="TodoTitle" className="todo__title">
