@@ -15,6 +15,7 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null);
   const [filter, setFilter] = useState<Filter>('all');
+  const [temporaryTodo, setTemporaryTodo] = useState<Todo | null>(null);
 
   useEffect(() => {
     const loadTodos = async () => {
@@ -43,7 +44,12 @@ export const App: React.FC = () => {
   };
 
   const handleAddTodo = (newTodo: Todo) => {
+    setTemporaryTodo(null);
     setTodos(prevState => [...prevState, newTodo]);
+  };
+
+  const handleAddTemporaryTodo = (tempTodo: Todo) => {
+    setTemporaryTodo(tempTodo);
   };
 
   const filteredTodos = todos.filter(todo => {
@@ -70,8 +76,12 @@ export const App: React.FC = () => {
       <h1 className="todoapp__title">todos</h1>
 
       <div className="todoapp__content">
-        <Header onAddTodo={handleAddTodo} />
+        <Header
+          onAddTodo={handleAddTodo}
+          onAddTemporaryTodo={handleAddTemporaryTodo}
+        />
         <TodoList
+          temporaryTodo={temporaryTodo}
           todos={filteredTodos}
           onToggleTodoStatus={handleToggleTodoStatus}
         />

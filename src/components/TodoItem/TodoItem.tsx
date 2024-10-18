@@ -3,11 +3,13 @@ import { Todo } from '../../types/Todo';
 /* eslint-disable jsx-a11y/label-has-associated-control */
 type Props = {
   todo: Todo;
+  temporaryTodo?: Todo;
   onToggleTodoStatus: (id: number) => void;
 };
 
 export const TodoItem = ({
   todo: { id, title, completed },
+  temporaryTodo,
   onToggleTodoStatus,
 }: Props) => {
   return (
@@ -34,7 +36,10 @@ export const TodoItem = ({
         </button>
 
         {/* overlay will cover the todo while it is being deleted or updated */}
-        <div data-cy="TodoLoader" className="modal overlay">
+        <div
+          data-cy="TodoLoader"
+          className={`modal overlay ${temporaryTodo && 'is-active'}`}
+        >
           <div className="modal-background has-background-white-ter" />
           <div className="loader" />
         </div>
@@ -91,8 +96,8 @@ export const TodoItem = ({
       {/* <div data-cy="TodoLoader" className="modal overlay is-active">
           <div className="modal-background has-background-white-ter" />
           <div className="loader" />
-        </div> */}
-      {/* </div> */}
+        </div>
+      </div> */}
     </>
   );
 };

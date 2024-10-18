@@ -4,9 +4,10 @@ import { Todo } from '../../types/Todo';
 
 type Props = {
   onAddTodo: (newTodo: Todo) => void;
+  onAddTemporaryTodo: (tempoTodo: Todo) => void;
 };
 
-export const Header = ({ onAddTodo }: Props) => {
+export const Header = ({ onAddTodo, onAddTemporaryTodo }: Props) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
@@ -14,15 +15,24 @@ export const Header = ({ onAddTodo }: Props) => {
 
     const addTodo = async () => {
       try {
+        const tempTodo = {
+          id: 0,
+          title: newTodoTitle,
+          userId: 764,
+          completed: false,
+        };
+
         const newTodo = {
           title: newTodoTitle,
           userId: 764,
           completed: false,
         };
 
-        await postTodo(newTodo);
+        onAddTemporaryTodo(tempTodo);
 
-        onAddTodo(newTodo);
+        const response = await postTodo(newTodo);
+
+        onAddTodo(response);
       } catch {}
     };
 
