@@ -1,8 +1,7 @@
 import { Filter } from '../../types/Filter';
-import { Todo } from '../../types/Todo';
 
 type Props = {
-  todos: Todo[];
+  activeTodos: number;
   onFilterChange: (filterType: Filter) => void;
   filter: Filter;
 };
@@ -28,15 +27,13 @@ const filterOptions: {
   },
 ];
 
-export const Footer = ({ todos, onFilterChange, filter }: Props) => {
-  const countOfNotCompletedTodos = todos.filter(todo => !todo.completed).length;
-
+export const Footer = ({ activeTodos, onFilterChange, filter }: Props) => {
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       {/* Hide the footer if there are no todos */}
 
       <span className="todo-count" data-cy="TodosCounter">
-        {countOfNotCompletedTodos} items left
+        {activeTodos} items left
       </span>
 
       {/* Active link should have the 'selected' class */}

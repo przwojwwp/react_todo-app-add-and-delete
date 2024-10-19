@@ -40,7 +40,7 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
 
         onAddTodo(response);
       } catch {
-        onError('Title should not be empty');
+        onError(ErrorMessage.EMPTY_TITLE);
       } finally {
         setTimeout(() => {
           onError(null);

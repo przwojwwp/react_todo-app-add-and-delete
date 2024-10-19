@@ -18,6 +18,8 @@ export const App: React.FC = () => {
   const [filter, setFilter] = useState<Filter>('all');
   const [temporaryTodo, setTemporaryTodo] = useState<Todo | null>(null);
 
+  const activeTodos = todos.filter(todo => !todo.completed).length;
+
   useEffect(() => {
     const loadTodos = async () => {
       try {
@@ -25,7 +27,7 @@ export const App: React.FC = () => {
 
         setTodos(loadedTodos);
       } catch (err) {
-        setErrorMessage('Unable to load todos');
+        setErrorMessage(ErrorMessage.ADD_TODO);
       } finally {
         setTimeout(() => {
           setErrorMessage(null);
@@ -93,7 +95,7 @@ export const App: React.FC = () => {
         />
         {todos.length > 0 && (
           <Footer
-            todos={todos}
+            activeTodos={activeTodos}
             filter={filter}
             onFilterChange={handleSetFilter}
           />
