@@ -9,5 +9,5 @@ export const getTodos = () => {
 
 // Add more methods here
 export const postTodo = (todo: Todo) => {
-  return client.post<Todo>(`/todos?userId=${USER_ID}`, todo);
+  return client.post<Todo>(`/todos`, todo);
 };

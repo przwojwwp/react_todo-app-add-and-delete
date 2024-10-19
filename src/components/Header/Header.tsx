@@ -22,7 +22,6 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
         }
 
         const tempTodo: Todo = {
-          id: 0,
           title: newTodoTitle,
           userId: 764,
           completed: false,

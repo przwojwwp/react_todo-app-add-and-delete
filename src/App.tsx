@@ -27,7 +27,7 @@ export const App: React.FC = () => {
 
         setTodos(loadedTodos);
       } catch (err) {
-        setErrorMessage(ErrorMessage.ADD_TODO);
+        setErrorMessage(ErrorMessage.LOAD_TODOS);
       } finally {
         setTimeout(() => {
           setErrorMessage(null);
