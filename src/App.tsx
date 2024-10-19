@@ -15,7 +15,7 @@ import classNames from 'classnames';
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null);
-  const [filter, setFilter] = useState<Filter>('all');
+  const [filter, setFilter] = useState<Filter>(Filter.ALL);
   const [temporaryTodo, setTemporaryTodo] = useState<Todo | null>(null);
 
   const activeTodos = todos.filter(todo => !todo.completed).length;
@@ -61,9 +61,9 @@ export const App: React.FC = () => {
 
   const filteredTodos = todos.filter(todo => {
     switch (filter) {
-      case 'active':
+      case Filter.ACTIVE:
         return !todo.completed;
-      case 'completed':
+      case Filter.COMPLETED:
         return todo.completed;
       default:
         return true;

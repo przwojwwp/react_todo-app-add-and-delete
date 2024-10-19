@@ -12,16 +12,16 @@ const filterOptions: {
   href: string;
   dataCy: string;
 }[] = [
-  { label: 'All', value: 'all', href: '#/', dataCy: 'FilterLinkAll' },
+  { label: 'All', value: Filter.ALL, href: '#/', dataCy: 'FilterLinkAll' },
   {
     label: 'Active',
-    value: 'active',
+    value: Filter.ACTIVE,
     href: '#/active',
     dataCy: 'FilterLinkActive',
   },
   {
     label: 'Completed',
-    value: 'completed',
+    value: Filter.COMPLETED,
     href: '#/completed',
     dataCy: 'FilterLinkCompleted',
   },
