@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { postTodo } from '../../api/todos';
 import { Todo } from '../../types/Todo';
 import { ErrorMessage } from '../../types/ErrorMessage';
@@ -7,12 +7,18 @@ type Props = {
   onAddTodo: (newTodo: Todo) => void;
   onAddTemporaryTodo: (tempoTodo: Todo | null) => void;
   onError: (error: ErrorMessage | null) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
 };
 
-export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
+export const Header = ({
+  onAddTodo,
+  onAddTemporaryTodo,
+  onError,
+  inputRef,
+}: Props) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

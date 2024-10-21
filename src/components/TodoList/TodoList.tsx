@@ -7,6 +7,7 @@ type Props = {
   todos: Todo[];
   temporaryTodo: Todo | null;
   onDeleteTodo: (id: number) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
   onToggleTodoStatus: (id: number) => void;
 };
 
@@ -14,6 +15,7 @@ export const TodoList = ({
   todos,
   temporaryTodo,
   onDeleteTodo,
+  inputRef,
   onToggleTodoStatus,
 }: Props) => {
   return (
@@ -25,6 +27,7 @@ export const TodoList = ({
               key={todo.id}
               todo={todo}
               onDeleteTodo={onDeleteTodo}
+              inputRef={inputRef}
               onToggleTodoStatus={onToggleTodoStatus}
             />
           );
@@ -35,6 +38,7 @@ export const TodoList = ({
           todo={temporaryTodo}
           temporaryTodo={temporaryTodo}
           onDeleteTodo={onDeleteTodo}
+          inputRef={inputRef}
           onToggleTodoStatus={onToggleTodoStatus}
         />
       )}

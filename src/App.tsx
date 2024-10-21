@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
 import { deleteTodo, getTodos, USER_ID } from './api/todos';
 import { TodoList } from './components/TodoList';
@@ -17,6 +17,7 @@ export const App: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<ErrorMessage | null>(null);
   const [filter, setFilter] = useState<Filter>(Filter.ALL);
   const [temporaryTodo, setTemporaryTodo] = useState<Todo | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const activeTodos = todos.filter(todo => !todo.completed).length;
 
@@ -100,11 +101,13 @@ export const App: React.FC = () => {
           onAddTodo={handleAddTodo}
           onAddTemporaryTodo={handleAddTemporaryTodo}
           onError={handleSetError}
+          inputRef={inputRef}
         />
         <TodoList
           temporaryTodo={temporaryTodo}
           todos={filteredTodos}
           onDeleteTodo={handleDelete}
+          inputRef={inputRef}
           onToggleTodoStatus={handleToggleTodoStatus}
         />
         {todos.length > 0 && (

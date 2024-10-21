@@ -6,6 +6,7 @@ type Props = {
   todo: Todo;
   temporaryTodo?: Todo;
   onDeleteTodo: (id: number) => void;
+  inputRef: React.RefObject<HTMLInputElement>;
   onToggleTodoStatus: (id: number) => void;
 };
 
@@ -13,6 +14,7 @@ export const TodoItem = ({
   todo: { id, title, completed },
   temporaryTodo,
   onDeleteTodo,
+  inputRef,
   onToggleTodoStatus,
 }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -23,6 +25,7 @@ export const TodoItem = ({
       await onDeleteTodo(id);
     } finally {
       setIsDeleting(false);
+      inputRef.current?.focus();
     }
   };
 
