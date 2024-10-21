@@ -30,6 +30,7 @@ const filterOptions: {
 
 export const Footer = ({ todos, onFilterChange, filter }: Props) => {
   const activeTodos = todos.filter(todo => !todo.completed).length;
+  const atLeastOneCompleted = todos.some(todo => todo.completed);
 
   return (
     <footer className="todoapp__footer" data-cy="Footer">
@@ -59,6 +60,8 @@ export const Footer = ({ todos, onFilterChange, filter }: Props) => {
         type="button"
         className="todoapp__clear-completed"
         data-cy="ClearCompletedButton"
+        disabled={!atLeastOneCompleted}
+        aria-hidden={!atLeastOneCompleted}
       >
         Clear completed
       </button>
