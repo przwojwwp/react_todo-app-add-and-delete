@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Todo } from '../../types/Todo';
 
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -14,6 +15,17 @@ export const TodoItem = ({
   onDeleteTodo,
   onToggleTodoStatus,
 }: Props) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await onDeleteTodo(id);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <>
       {/* This is a completed todo */}
@@ -39,7 +51,7 @@ export const TodoItem = ({
           type="button"
           className="todo__remove"
           data-cy="TodoDelete"
-          onClick={() => onDeleteTodo(id)}
+          onClick={handleDelete}
         >
           ×
         </button>
@@ -47,7 +59,7 @@ export const TodoItem = ({
         {/* overlay will cover the todo while it is being deleted or updated */}
         <div
           data-cy="TodoLoader"
-          className={`modal overlay ${temporaryTodo && 'is-active'}`}
+          className={`modal overlay ${(temporaryTodo || isDeleting) && 'is-active'}`}
         >
           <div className="modal-background has-background-white-ter" />
           <div className="loader" />
