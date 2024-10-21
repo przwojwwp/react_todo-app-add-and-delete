@@ -1,7 +1,8 @@
 import { Filter } from '../../types/Filter';
+import { Todo } from '../../types/Todo';
 
 type Props = {
-  activeTodos: number;
+  todos: Todo[];
   onFilterChange: (filterType: Filter) => void;
   filter: Filter;
 };
@@ -27,7 +28,9 @@ const filterOptions: {
   },
 ];
 
-export const Footer = ({ activeTodos, onFilterChange, filter }: Props) => {
+export const Footer = ({ todos, onFilterChange, filter }: Props) => {
+  const activeTodos = todos.filter(todo => !todo.completed).length;
+
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       {/* Hide the footer if there are no todos */}

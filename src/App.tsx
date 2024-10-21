@@ -19,8 +19,6 @@ export const App: React.FC = () => {
   const [temporaryTodo, setTemporaryTodo] = useState<Todo | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const activeTodos = todos.filter(todo => !todo.completed).length;
-
   useEffect(() => {
     const loadTodos = async () => {
       try {
@@ -112,7 +110,7 @@ export const App: React.FC = () => {
         />
         {todos.length > 0 && (
           <Footer
-            activeTodos={activeTodos}
+            todos={todos}
             filter={filter}
             onFilterChange={handleSetFilter}
           />

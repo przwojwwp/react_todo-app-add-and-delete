@@ -18,7 +18,6 @@ export const Header = ({
 }: Props) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  // const inputRef = useRef<HTMLInputElement>(null);
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
