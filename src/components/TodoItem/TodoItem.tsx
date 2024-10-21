@@ -4,12 +4,14 @@ import { Todo } from '../../types/Todo';
 type Props = {
   todo: Todo;
   temporaryTodo?: Todo;
+  onDeleteTodo: (id: number) => void;
   onToggleTodoStatus: (id: number) => void;
 };
 
 export const TodoItem = ({
   todo: { id, title, completed },
   temporaryTodo,
+  onDeleteTodo,
   onToggleTodoStatus,
 }: Props) => {
   return (
@@ -33,7 +35,12 @@ export const TodoItem = ({
         </span>
 
         {/* Remove button appears only on hover */}
-        <button type="button" className="todo__remove" data-cy="TodoDelete">
+        <button
+          type="button"
+          className="todo__remove"
+          data-cy="TodoDelete"
+          onClick={() => onDeleteTodo(id)}
+        >
           ×
         </button>
 

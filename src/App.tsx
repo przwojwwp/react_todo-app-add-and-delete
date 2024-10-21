@@ -59,6 +59,10 @@ export const App: React.FC = () => {
     setErrorMessage(error);
   };
 
+  const handleDelete = (id: number) => {
+    setTodos(prevState => prevState.filter(todo => todo.id !== id));
+  };
+
   const filteredTodos = todos.filter(todo => {
     switch (filter) {
       case Filter.ACTIVE:
@@ -91,6 +95,7 @@ export const App: React.FC = () => {
         <TodoList
           temporaryTodo={temporaryTodo}
           todos={filteredTodos}
+          onDeleteTodo={handleDelete}
           onToggleTodoStatus={handleToggleTodoStatus}
         />
         {todos.length > 0 && (
