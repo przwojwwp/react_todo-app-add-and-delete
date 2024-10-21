@@ -1,19 +1,22 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { postTodo } from '../../api/todos';
 import { Todo } from '../../types/Todo';
 import { ErrorMessage } from '../../types/ErrorMessage';
 
 type Props = {
   onAddTodo: (newTodo: Todo) => void;
-  onAddTemporaryTodo: (tempoTodo: Todo) => void;
+  onAddTemporaryTodo: (tempoTodo: Todo | null) => void;
   onError: (error: ErrorMessage | null) => void;
 };
 
 export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const addNewTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsSubmitting(true);
 
     const addTodo = async () => {
       try {
@@ -22,13 +25,13 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
         }
 
         const tempTodo: Todo = {
-          title: newTodoTitle,
+          title: newTodoTitle.trim(),
           userId: 764,
           completed: false,
         };
 
         const newTodo: Todo = {
-          title: newTodoTitle,
+          title: newTodoTitle.trim(),
           userId: 764,
           completed: false,
         };
@@ -37,10 +40,33 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
 
         const response = await postTodo(newTodo);
 
+        if (!response) {
+          throw new Error('Unable to add a todo');
+        }
+
         onAddTodo(response);
-      } catch {
-        onError(ErrorMessage.EMPTY_TITLE);
+
+        setNewTodoTitle('');
+        setIsSubmitting(false);
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          error.message === 'Title should not be empty'
+        ) {
+          onError(ErrorMessage.EMPTY_TITLE);
+        } else {
+          onError(ErrorMessage.ADD_TODO);
+        }
       } finally {
+        setIsSubmitting(false);
+        onAddTemporaryTodo(null);
+
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }, 0);
+
         setTimeout(() => {
           onError(null);
         }, 3000);
@@ -69,6 +95,8 @@ export const Header = ({ onAddTodo, onAddTemporaryTodo, onError }: Props) => {
           value={newTodoTitle}
           onChange={e => setNewTodoTitle(e.target.value)}
           autoFocus
+          disabled={isSubmitting}
+          ref={inputRef}
         />
       </form>
     </header>

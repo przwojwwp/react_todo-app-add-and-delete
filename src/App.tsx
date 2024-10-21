@@ -51,7 +51,7 @@ export const App: React.FC = () => {
     setTodos(prevState => [...prevState, newTodo]);
   };
 
-  const handleAddTemporaryTodo = (tempTodo: Todo) => {
+  const handleAddTemporaryTodo = (tempTodo: Todo | null) => {
     setTemporaryTodo(tempTodo);
   };
 
