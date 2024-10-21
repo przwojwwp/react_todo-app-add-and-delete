@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useState } from 'react';
 import { UserWarning } from './UserWarning';
-import { getTodos, USER_ID } from './api/todos';
+import { deleteTodo, getTodos, USER_ID } from './api/todos';
 import { TodoList } from './components/TodoList';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
@@ -59,8 +59,17 @@ export const App: React.FC = () => {
     setErrorMessage(error);
   };
 
-  const handleDelete = (id: number) => {
-    setTodos(prevState => prevState.filter(todo => todo.id !== id));
+  const handleDelete = async (id: number) => {
+    try {
+      await deleteTodo(id);
+      setTodos(prevState => prevState.filter(todo => todo.id !== id));
+    } catch {
+      setErrorMessage(ErrorMessage.DELETE_TODO);
+    } finally {
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
   };
 
   const filteredTodos = todos.filter(todo => {
