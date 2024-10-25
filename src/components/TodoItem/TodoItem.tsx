@@ -21,8 +21,9 @@ export const TodoItem = ({
 
   const handleDelete = async () => {
     setIsDeleting(true);
+
     try {
-      onDeleteTodo(id);
+      await onDeleteTodo(id);
     } finally {
       setIsDeleting(false);
       inputRef.current?.focus();

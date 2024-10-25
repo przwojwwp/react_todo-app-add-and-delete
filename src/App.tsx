@@ -71,6 +71,40 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleDeleteCompletedTodos = async () => {
+    try {
+      const completedTodos = todos.filter(todo => todo.completed);
+
+      const results = await Promise.allSettled(
+        completedTodos.map(todo => deleteTodo(todo.id)),
+      );
+
+      const successfullyDeletedIds = completedTodos
+        .filter((_, index) => results[index].status === 'fulfilled')
+        .map(todo => todo.id);
+
+      setTodos(prevTodos =>
+        prevTodos.filter(todo => !successfullyDeletedIds.includes(todo.id)),
+      );
+
+      const failedDeletes = completedTodos.filter(
+        (_, index) => results[index].status === 'rejected',
+      );
+
+      if (failedDeletes.length > 0) {
+        setErrorMessage(ErrorMessage.DELETE_TODO);
+      }
+    } catch {
+      setErrorMessage(ErrorMessage.DELETE_TODO);
+    } finally {
+      inputRef.current?.focus();
+
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  };
+
   const filteredTodos = todos.filter(todo => {
     switch (filter) {
       case Filter.ACTIVE:
@@ -113,6 +147,7 @@ export const App: React.FC = () => {
             todos={todos}
             filter={filter}
             onFilterChange={handleSetFilter}
+            onClearCompleted={handleDeleteCompletedTodos}
           />
         )}
       </div>

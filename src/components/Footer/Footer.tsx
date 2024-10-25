@@ -5,6 +5,7 @@ type Props = {
   todos: Todo[];
   onFilterChange: (filterType: Filter) => void;
   filter: Filter;
+  onClearCompleted: () => void;
 };
 
 const filterOptions: {
@@ -28,7 +29,12 @@ const filterOptions: {
   },
 ];
 
-export const Footer = ({ todos, onFilterChange, filter }: Props) => {
+export const Footer = ({
+  todos,
+  onFilterChange,
+  filter,
+  onClearCompleted,
+}: Props) => {
   const activeTodos = todos.filter(todo => !todo.completed).length;
   const atLeastOneCompleted = todos.some(todo => todo.completed);
 
@@ -62,6 +68,7 @@ export const Footer = ({ todos, onFilterChange, filter }: Props) => {
         data-cy="ClearCompletedButton"
         disabled={!atLeastOneCompleted}
         aria-hidden={!atLeastOneCompleted}
+        onClick={onClearCompleted}
       >
         Clear completed
       </button>
