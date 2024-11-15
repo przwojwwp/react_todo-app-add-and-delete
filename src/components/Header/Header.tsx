@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { postTodo } from '../../api/todos';
 import { Todo } from '../../types/Todo';
 import { ErrorMessage } from '../../types/ErrorMessage';
+import { USER_ID } from '../../api/todos';
 
 type Props = {
   onAddTodo: (newTodo: Todo) => void;
@@ -26,18 +27,18 @@ export const Header = ({
     const addTodo = async () => {
       try {
         if (!newTodoTitle.trim()) {
-          throw new Error('Title should not be empty');
+          throw new Error(ErrorMessage.EMPTY_TITLE);
         }
 
         const tempTodo: Todo = {
           title: newTodoTitle.trim(),
-          userId: 764,
+          userId: USER_ID,
           completed: false,
         };
 
         const newTodo: Todo = {
           title: newTodoTitle.trim(),
-          userId: 764,
+          userId: USER_ID,
           completed: false,
         };
 
@@ -46,7 +47,7 @@ export const Header = ({
         const response = await postTodo(newTodo);
 
         if (!response) {
-          throw new Error('Unable to add a todo');
+          throw new Error(ErrorMessage.ADD_TODO);
         }
 
         onAddTodo(response);
